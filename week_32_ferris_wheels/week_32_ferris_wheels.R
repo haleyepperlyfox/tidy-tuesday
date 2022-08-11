@@ -4,6 +4,7 @@
 library(tidytuesdayR)
 library(tidyverse)
 library(ggsvg)
+library(showtext)
 
 data <- tidytuesdayR::tt_load('2022-08-09')
 
@@ -38,12 +39,10 @@ df_3 <- df_3 %>%
 # rename Eye on Malaysia (1)
 df_3$name <- ifelse(df_3$name == "Eye on Malaysia (1)", "Eye on Malaysia", df_3$name)
 
-library(repr)
-options(repr.plot.width = 28, repr.plot.height =20)
-
 # lollipop chart
 svg_url <- "https://www.svgrepo.com/download/89559/cable-car-cabin.svg"
 svg_txt <- paste(readLines(svg_url), collapse = "\n")
+showtext_auto(enable = TRUE) 
 
 df_3 %>%
   ggplot(aes(reorder(name, days_till_paid_off), days_till_paid_off)) +
@@ -76,4 +75,10 @@ df_3 %>%
 ggsave("week_32_ferris_wheels/tidytuesday_week_32.png",
        height = 5,
        width = 6,
-       dpi=200)
+       unit = "in",
+       dpi=300)
+
+ggsave("week_32_ferris_wheels/tidytuesday_week_32.pdf",
+       height = 5,
+       width = 6,
+       dpi=300)
