@@ -50,9 +50,9 @@ df_3 %>%
   geom_hline(yintercept=200, linetype="dashed", color = "gray60") +
   geom_hline(yintercept=400, linetype="dashed", color = "gray60") +
   geom_hline(yintercept=600, linetype="dashed", color = "gray60") +
+  geom_segment(aes(x=name, xend=name, y=0, yend=days_till_paid_off), color = 'black',size = 1) +
   geom_point() +
   geom_point_svg(aes(name, days_till_paid_off), svg = svg_txt, size = 5.5) +
-  geom_segment(aes(x=name, xend=name, y=0, yend=days_till_paid_off), color = 'black',size = 1) +
   coord_flip() +
   theme_minimal() +
   theme(plot.background  = element_rect(fill="lavender")) +
