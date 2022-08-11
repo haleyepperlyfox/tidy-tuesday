@@ -51,7 +51,7 @@ df_3 %>%
   geom_hline(yintercept=400, linetype="dashed", color = "gray60") +
   geom_hline(yintercept=600, linetype="dashed", color = "gray60") +
   geom_point() +
-  geom_point_svg(aes(name, days_till_paid_off), svg = svg_txt, size = 5) +
+  geom_point_svg(aes(name, days_till_paid_off), svg = svg_txt, size = 5.5) +
   geom_segment(aes(x=name, xend=name, y=0, yend=days_till_paid_off), color = 'black',size = 1) +
   coord_flip() +
   theme_minimal() +
@@ -63,22 +63,17 @@ df_3 %>%
        y = "Days",
        x = "") +
   theme(
-    axis.text.x = element_text(size=8, color="midnightblue"),
-    axis.text.y = element_text(size=8, color="midnightblue", margin = margin(r = -17)),
-    axis.title =  element_text(size=8, color="midnightblue"),
-    plot.title = element_text(size=10, color="midnightblue", hjust=1.2, face="bold"),
-    plot.subtitle = element_text(size=8, color="midnightblue", hjust=.5),
-    plot.caption = element_text(hjust=.5, size=6, color="midnightblue", face="bold"),
+    axis.text.x = element_text(size=20, color="midnightblue"),
+    axis.text.y = element_text(size=20, color="midnightblue", margin = margin(r = -17)),
+    axis.title =  element_text(size=20, color="midnightblue"),
+    plot.title = element_text(size=30, color="midnightblue", hjust=.5, face="bold"),
+    plot.subtitle = element_text(size=22, color="midnightblue", hjust=.5),
+    plot.caption = element_text(hjust=.5, size=20, color="midnightblue", face="bold"),
     panel.grid.major = element_blank()
   )
 
 ggsave("week_32_ferris_wheels/tidytuesday_week_32.png",
        height = 5,
        width = 6,
-       unit = "in",
-       dpi=300)
+       dpi=320)
 
-ggsave("week_32_ferris_wheels/tidytuesday_week_32.pdf",
-       height = 5,
-       width = 6,
-       dpi=300)
