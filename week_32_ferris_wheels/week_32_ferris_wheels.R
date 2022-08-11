@@ -76,4 +76,4 @@ df_3 %>%
 ggsave("week_32_ferris_wheels/tidytuesday_week_32.png",
        height = 5,
        width = 6,
-       dpi=350)
+       dpi=200)
