@@ -38,6 +38,8 @@ df_3 <- df_3 %>%
 # rename Eye on Malaysia (1)
 df_3$name <- ifelse(df_3$name == "Eye on Malaysia (1)", "Eye on Malaysia", df_3$name)
 
+library(repr)
+options(repr.plot.width = 28, repr.plot.height =20)
 
 # lollipop chart
 svg_url <- "https://www.svgrepo.com/download/89559/cable-car-cabin.svg"
@@ -45,36 +47,33 @@ svg_txt <- paste(readLines(svg_url), collapse = "\n")
 
 df_3 %>%
   ggplot(aes(reorder(name, days_till_paid_off), days_till_paid_off)) +
+  geom_hline(yintercept=0, linetype="dashed", color = "gray60") +
+  geom_hline(yintercept=200, linetype="dashed", color = "gray60") +
+  geom_hline(yintercept=400, linetype="dashed", color = "gray60") +
+  geom_hline(yintercept=600, linetype="dashed", color = "gray60") +
   geom_point() +
-  geom_point_svg(aes(name, days_till_paid_off), svg = svg_txt, size = 8) +
+  geom_point_svg(aes(name, days_till_paid_off), svg = svg_txt, size = 5) +
   geom_segment(aes(x=name, xend=name, y=0, yend=days_till_paid_off), color = 'black',size = 1) +
   coord_flip() +
   theme_minimal() +
   theme(plot.background  = element_rect(fill="lavender")) +
   theme(panel.grid.major = element_line(colour="gray")) +
   labs(title = "How many days does it take to recoup construction costs of a ferris wheel?",
-       subtitle = "Assuming operating for 12 hours per day, 7 days a week, at 100% capacity",
+       subtitle = "Assuming operating for 12 hours per day, 7 days a week, at 100% adult capacity",
        caption = "Haley Fox |  Tidy Tuesday Week 32 | Data: @Emil_Hvitfeldt {ferriswheels}",
        y = "Days",
        x = "") +
   theme(
-    axis.text.x = element_text(size=12, color="midnightblue"),
-    axis.text.y = element_text(size=12, color="midnightblue", margin = margin(r = -25)),
-    axis.title =  element_text(size=12, color="midnightblue"),
-    plot.title = element_text(size=18, color="midnightblue", hjust=.5, face="bold"),
-    plot.subtitle = element_text(size=12, color="midnightblue", hjust=.5),
-    plot.caption = element_text(hjust=.5, margin=margin(20,0,0,0), size=10, color="midnightblue", face="bold"),
+    axis.text.x = element_text(size=8, color="midnightblue"),
+    axis.text.y = element_text(size=8, color="midnightblue", margin = margin(r = -17)),
+    axis.title =  element_text(size=8, color="midnightblue"),
+    plot.title = element_text(size=10, color="midnightblue", hjust=1.2, face="bold"),
+    plot.subtitle = element_text(size=8, color="midnightblue", hjust=.5),
+    plot.caption = element_text(hjust=.5, size=6, color="midnightblue", face="bold"),
     panel.grid.major = element_blank()
-  ) +
-  geom_hline(yintercept=0, linetype="dashed", color = "gray60") +
-  geom_hline(yintercept=200, linetype="dashed", color = "gray60") +
-  geom_hline(yintercept=400, linetype="dashed", color = "gray60") +
-  geom_hline(yintercept=600, linetype="dashed", color = "gray60")
+  )
 
-
-ggsave("tidytuesday_week_32.png",
-       height = 10,
-       width = 10,
-       dpi=320,
-       
-)  
+ggsave("week_32_ferris_wheels/tidytuesday_week_32.png",
+       height = 5,
+       width = 6,
+       dpi=350)
