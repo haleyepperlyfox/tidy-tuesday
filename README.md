@@ -8,4 +8,4 @@ Here lie my contributions to the #tidytuesday community on Twitter.
 
 ### Week 33 - Psychometrics with TV characters
 
-<img width="1238" alt="Screen Shot 2022-08-16 at 3 47 05 PM" src="https://user-images.githubusercontent.com/96138601/184998689-76661a1d-62db-4f5a-900a-efb8d5b6672c.png">
+![office_plot_jim_dwight](https://user-images.githubusercontent.com/96138601/185146898-8587b674-7ff4-4ab6-8fc8-db44926334ad.png)
