@@ -6,6 +6,9 @@ library(tidytuesdayR)
 library(showtext)
 library(patchwork)
 library(ggpubr)
+library(png)
+library(here)
+
 
 # read in data
 tuesdata <- tidytuesdayR::tt_load(2022, week = 33)
@@ -78,7 +81,7 @@ plot_list_2[[character]] = p2
 print(p2)
 }
 
-# put together with patchwork and close gap between plots
+# put all of the salespeople plots together with patchwork and close gap between plots
 p1 <- plot_list$`Jim Halpert` + plot_spacer() + plot_list_2$`Jim Halpert` + plot_layout(widths = c(4, -0.5, 4))
 p2 <- plot_list$`Andy Bernard` + plot_spacer() + plot_list_2$`Andy Bernard` + plot_layout(widths = c(4, -0.5, 4))
 p3 <- plot_list$`Phyllis Lapin` + plot_spacer() + plot_list_2$`Phyllis Lapin` + plot_layout(widths = c(4, -0.5, 4))
@@ -86,7 +89,7 @@ p4 <- plot_list$`Dwight Schrute` + plot_spacer() + plot_list_2$`Dwight Schrute` 
 p5 <- plot_list$`Ryan Howard` + plot_spacer() + plot_list_2$`Ryan Howard` + plot_layout(widths = c(4, -0.5, 4))
 p6 <- plot_list$`Stanley Hudson` + plot_spacer() + plot_list_2$`Stanley Hudson` + plot_layout(widths = c(4, -0.5, 4))
 
-# arrange the first row of plots
+# arrange the first row of 3 plots
 arrange2 <- ggarrange(
   p1, ggplot() + theme_void(), p2, ggplot() + theme_void(), p3, 
   ncol = 5, nrow = 2,
@@ -96,7 +99,7 @@ arrange2 <- ggarrange(
   hjust = -2
 )
 
-# arrange the second row of plots
+# arrange the second row of 3 plots
 arrange3 <- ggarrange(
   p6, ggplot() + theme_void(), p5, ggplot() + theme_void(), p4,
   ncol = 5, nrow = 2,
@@ -115,21 +118,45 @@ ggsave("week_33_psychometrics/office_plot.png", arrange4, width = 33, height = 1
 
 
 
-# that plot doesn't make for a great twitter post, so let's also create a smaller
-# version with just Jim and Dwight
-arrange_jim_dwight <- ggarrange(
-  p4, ggplot() + theme_void(), p1,
-  nrow = 3,
-  heights = c(1, -0.1, 1),
-  labels = c("Dwight Schrute", "", "Jim Halpert"),
-  font.label = list(size = 40),
-  hjust = -1
-)
+# that plot above with all of the salespeople  doesn't make for a great twitter post, 
+# so let's also create a smaller version with just Jim and Dwight and add in their photos
+
+# add a picture of Jim and Dwight - download photos locally using image links and save as png
+image_links <- tuesdata$characters
+image_links_1 <- image_links %>% 
+  filter(name == "Jim Halpert" | name == "Dwight Schrute")
+
+d_image <- readPNG(here("week_33_psychometrics/dwight_photo.png"), native = TRUE)
+j_image <- readPNG(here("week_33_psychometrics/jim_photo.png"), native = TRUE)
+
+dwight <- p4 + labs(title = "How do people rate The Office's Dwight and Jim on sales-related personality traits?",
+            subtitle = "Dwight Schrute") +
+  theme(
+    plot.title = element_text(size=45, hjust=3, face="bold"),
+    plot.subtitle = element_text(size=30, hjust=-0.9, face="bold")
+  ) + 
+  inset_element(p = d_image,
+                left = 0.5,
+                bottom = 0.35,
+                right = 1,
+                top = 1)
+
+jim <- p1  + labs(subtitle = "Jim Halpert",
+                  caption = "Haley Fox | Tidy Tuesday Week 33 | Data: Open-Source Psychometrics Project courtesy of Tanya Shapiro") +
+  theme(
+    plot.subtitle = element_text(size=30, hjust=-0.9, face="bold"),
+    plot.caption = element_text(hjust=-1, size=20, face="bold")
+  ) + 
+  inset_element(p = j_image,
+                left = 0.5,
+                bottom = 0.35,
+                right = 1,
+                top = 1)
+
 
 arrange_jim_dwight <- ggarrange(
-  p4, p1,
+  dwight, jim,
   nrow = 2,
-  labels = c("Dwight Schrute", "Jim Halpert"),
   font.label = list(size = 40)
 )
 
