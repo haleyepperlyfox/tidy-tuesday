@@ -17,7 +17,7 @@ bigfoot %>%
   summarise(freq = n()) %>% 
   arrange(desc(freq))
 
-# subset to top 5 states
+# subset to these 4 states of interest
 bf_state <- bigfoot %>% 
   filter(state == "California" | state == "Ohio" | state == "Texas" | state == "Michigan")
 
@@ -63,14 +63,6 @@ model <- glm(class ~ State + season +
                year + temperature_mid + cloud_cover + visibility, 
              data = bf_3, family = "binomial")
 summary(model)
-# year, some states, and visibility are significant
-# Continuous variable results:
-# for every one unit increase in year, the log odds of a class A experience 
-# (versus class B) decreases by 0.041634.
-# for every one unit increase in visibility, the log odds of a class A experience 
-# (versus class B) increases by 0.081161.
-
-# Tukey's pairwise comparisons for categorical variables:
 
 # Tukey's pairwise comparison for states - significant differences by states
 summary(glht(model, mcp(State = "Tukey")))
@@ -81,8 +73,10 @@ summary(glht(model, mcp(season = "Tukey")))
 
 
 # predicted probabilities for a range of visibility values across 4 states
+
 # determine the range for visibility
 summary(bf_3)
+
 # make a new dataframe with the mean for all values except state and visibility
 newdata2 <- with(bf_3, data.frame(season = "Summer", 
                                   year = round(mean(year, na.rm = TRUE), digits = 0), 
